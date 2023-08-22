@@ -1,0 +1,9 @@
+
+spring:
+  r2dbc:
+    url: r2dbc:mysql://localhost:3309/qa-gateway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: root
+    password: ${MYSQL_PASSWORD:1234}
+
+server:
+  port: 9090

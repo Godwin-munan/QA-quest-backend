@@ -1,5 +1,7 @@
 
 spring:
+  application:
+    name: test-service
   r2dbc:
     url: r2dbc:mysql://localhost:3306/qa_test?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&useServerPrepareStatement=true
     username: root

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,12 +28,14 @@ public class QuestionService {
                 .onErrorResume(error -> Mono.just(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR)));
     }
 
+
     public Mono<ResponseEntity<List<Question>>> getAllQuestions() {
         return repository.findAll()
                 .collectList()
                 .flatMap(question -> Mono.just( new ResponseEntity<>(question, HttpStatus.OK)))
                 .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
     }
+
 
     public Mono<ResponseEntity<List<Question>>> getByCategory(String category) {
         return repository.findByCategory(category)
@@ -41,12 +44,14 @@ public class QuestionService {
                 .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
     }
 
+
     public Mono<ResponseEntity<List<Long>>> getQuestionsIds(String category, Long numQ) {
         return repository.findRandomQuestionsByCategory(category, numQ)
                 .collectList()
                 .flatMap(question -> Mono.just( new ResponseEntity<>(question, HttpStatus.OK)))
                 .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
     }
+
 
     public Mono<ResponseEntity<List<QuestionWrapper>>> getQuestions(Mono<List<Long>> questionsIdMono) {
             return questionsIdMono.flatMap(ids -> repository.findAllById(ids)
@@ -63,6 +68,7 @@ public class QuestionService {
                     .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
 
     }
+
 
     public Mono<ResponseEntity<Integer>> getScore(Mono<List<QuestionResponse>> resListMono) {
         return resListMono.flatMap(res -> {

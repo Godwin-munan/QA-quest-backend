@@ -1,11 +1,18 @@
---CREATE TABLE IF NOT EXISTS question (
---    id BIGINT AUTO_INCREMENT PRIMARY KEY,
---    question_title VARCHAR(255),
---    option1 VARCHAR(255),
---    option2 VARCHAR(255),
---    option3 VARCHAR(255),
---    option4 VARCHAR(255),
---    correct_answer VARCHAR(255),
---    difficulty_level VARCHAR(255),
---    category VARCHAR(255)
---);
+CREATE TABLE IF NOT EXISTS test (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    test_title VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS questions (
+    id BIGINT PRIMARY KEY
+);
+
+
+CREATE TABLE IF NOT EXISTS test_questions (
+    id BIGINT PRIMARY KEY,
+    test_id BIGINT,
+    question_id BIGINT,
+    FOREIGN KEY (test_id) REFERENCES test(id),
+    FOREIGN KEY (question_id) REFERENCES questions(id)
+);
+

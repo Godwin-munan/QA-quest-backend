@@ -12,5 +12,5 @@ public interface QuestionRepository extends R2dbcRepository<Question, Long> {
     Flux<Question> findByCategory(String category);
 
     @Query(value = "SELECT q.id FROM question q WHERE q.category=:category ORDER BY RAND() LIMIT :numQ")
-    Flux<Long> findRandomQuestionsByCategory(String category, Long numQ);
+    Flux<Long> findRandomQuestionsByCategory(String category, Integer numQ);
 }

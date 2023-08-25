@@ -6,22 +6,23 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
-import java.util.List;
 
-@Table("test")
+@Table("test_questions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class Test implements Serializable {
+public class TestQuestions implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
 
-    @Column("title")
-    private String title;
+    @Column("test_id")
+    private Long testId;
 
+    @Column("question_id")
+    private Long questionId;
 }

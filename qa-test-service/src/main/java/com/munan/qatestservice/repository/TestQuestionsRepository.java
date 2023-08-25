@@ -1,10 +1,9 @@
 package com.munan.qatestservice.repository;
 
-import com.munan.qatestservice.entities.Test;
+import com.munan.qatestservice.entities.TestQuestions;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TestRepository extends R2dbcRepository<Test, Long> {
-
+public interface TestQuestionsRepository extends R2dbcRepository<TestQuestions, Long> {
 }

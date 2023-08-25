@@ -10,9 +10,14 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator;
 import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.reactive.config.EnableWebFlux;
+import reactivefeign.spring.config.EnableReactiveFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients
+@EnableReactiveFeignClients
+@EnableWebFlux
+@EnableTransactionManagement
 public class QaTestServiceApplication {
 
 	@Bean

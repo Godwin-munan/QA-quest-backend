@@ -1,4 +1,4 @@
-package com.munan.qatestservice;
+package com.munan.qatestservice.dto;
 
 import lombok.Data;
 

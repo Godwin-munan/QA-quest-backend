@@ -1,7 +1,8 @@
 package com.munan.qatestservice.controller;
 
-import com.munan.qatestservice.TestDto;
+import com.munan.qatestservice.dto.TestDto;
 import com.munan.qatestservice.entities.QuestionWrapper;
+import com.munan.qatestservice.entities.Test;
 import com.munan.qatestservice.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

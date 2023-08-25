@@ -13,6 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -45,15 +46,15 @@ public class QuestionService {
     }
 
 
-    public Mono<ResponseEntity<List<Long>>> getQuestionsIds(String category, Long numQ) {
+    public Mono<List<Long>> getQuestionsIds(String category, Integer numQ) {
         return repository.findRandomQuestionsByCategory(category, numQ)
                 .collectList()
-                .flatMap(question -> Mono.just( new ResponseEntity<>(question, HttpStatus.OK)))
-                .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
+                .flatMap(Mono::just)
+                .onErrorResume(error -> Mono.just(new ArrayList<>()));
     }
 
 
-    public Mono<ResponseEntity<List<QuestionWrapper>>> getQuestions(Mono<List<Long>> questionsIdMono) {
+    public Mono<List<QuestionWrapper>> getQuestions(Mono<List<Long>> questionsIdMono) {
             return questionsIdMono.flatMap(ids -> repository.findAllById(ids)
                             .map(q -> QuestionWrapper.builder()
                                 .id(q.getId())
@@ -64,20 +65,20 @@ public class QuestionService {
                                 .option4(q.getOption4())
                                 .build())
                             .collectList())
-                    .map(questions -> new ResponseEntity<>(questions, HttpStatus.OK))
-                    .onErrorResume(error -> Mono.just(new ResponseEntity<>(new ArrayList<>(),HttpStatus.INTERNAL_SERVER_ERROR)));
+                    .map(questions -> questions)
+                    .onErrorResume(error -> Mono.just(List.of(QuestionWrapper.builder().build())));
 
     }
 
 
-    public Mono<ResponseEntity<Integer>> getScore(Mono<List<QuestionResponse>> resListMono) {
+    public Mono<Integer> getScore(Mono<List<QuestionResponse>> resListMono) {
         return resListMono.flatMap(res -> {
             Flux<QuestionResponse>  flux = Flux.fromIterable(res);
 
             return flux.flatMap(r -> repository.findById(r.getId())
                     .map(q -> r.getResponse().equals(q.getCorrectAnswer()) ? 1 : 0))
                     .reduce(0, Integer::sum)
-                    .map(correct -> new ResponseEntity<>(correct, HttpStatus.OK));
+                    .map(correct -> correct);
         });
     }
 }

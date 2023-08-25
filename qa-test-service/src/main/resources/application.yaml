@@ -9,4 +9,29 @@ spring:
     initialization-mode: always
 
 server:
-  port: 8080
+  port: 8081
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.netflix: DEBUG
+
+question:
+  url: http://localhost:8082
+
+# host.docker.internal: 192.168.8.100
+
+#reactive:
+#  feign:
+#    client:
+#      config:
+#        question-service:
+#          options:
+#            readTimeoutMillis: 2000
+#            writeTimeoutMillis: 2000
+#            responseTimeoutMillis: 2000

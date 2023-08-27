@@ -19,7 +19,7 @@ public class TestController {
     private final TestService service;
 
     @PostMapping("create")
-    public Mono<ResponseEntity<String>> createNewTest(@RequestBody TestDto testDto){
+    public Mono<ResponseEntity<?>> createNewTest(@RequestBody TestDto testDto){
         return service.createTest(testDto.getCategory(), testDto.getNumQ(), testDto.getTitle());
     }
 

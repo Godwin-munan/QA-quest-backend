@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS test (
 
 
 CREATE TABLE IF NOT EXISTS test_questions (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     test_id BIGINT,
     question_id BIGINT,
     FOREIGN KEY (test_id) REFERENCES test(id)

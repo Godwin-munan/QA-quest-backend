@@ -1,6 +1,7 @@
 package com.munan.qatestservice.controller;
 
 import com.munan.qatestservice.dto.TestDto;
+import com.munan.qatestservice.entities.QuestionResponse;
 import com.munan.qatestservice.entities.QuestionWrapper;
 import com.munan.qatestservice.entities.Test;
 import com.munan.qatestservice.service.TestService;
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tests")
+@RequestMapping("api/v1/tests")
 @RequiredArgsConstructor
 public class TestController {
 
@@ -23,14 +24,14 @@ public class TestController {
         return service.createTest(testDto.getCategory(), testDto.getNumQ(), testDto.getTitle());
     }
 
-    @GetMapping("{id}")
-    public Mono<ResponseEntity<List<QuestionWrapper>>> getNewTestQuestions(@PathVariable Long id){
-        return service.getTestQuestions(id);
+    @GetMapping("test-list/{test_id}")
+    public Mono<ResponseEntity<List<QuestionWrapper>>> getNewTestQuestions(@PathVariable("test_id") Long testId){
+        return service.getTestQuestions(testId);
     }
 
-    @PostMapping("{id}")
-    public Mono<ResponseEntity<Integer>> submitTestScore(@PathVariable Long id){
-        return service.submitTest(id);
+    @PostMapping("score/{test_id}")
+    public Mono<ResponseEntity<Integer>> submitTestScore(@PathVariable("test_id") Long testId, @RequestBody Mono<List<QuestionResponse>> monoResponses){
+        return service.submitTest(testId, monoResponses);
     }
 
 }

@@ -14,12 +14,12 @@ import java.util.List;
 @ReactiveFeignClient(name= "QUESTION-SERVICE", url = "${question.url}")
 public interface TestInterface {
 
-    @GetMapping("/api/v1/questions/generate")
+    @GetMapping("api/v1/questions/generate")
     Mono<List<Long>> getQuestionsIdForTest(@RequestParam("category") String category, @RequestParam("numQ") Integer numQ);
 
-    @PostMapping("/api/v1/questions/question-list")
+    @PostMapping("api/v1/questions/question-list")
     Mono<List<QuestionWrapper>> getQuestionsForTest(@RequestBody Mono<List<Long>> questionsIdMono);
 
-    @PostMapping("/api/v1/questions/score")
+    @PostMapping("api/v1/questions/score")
     Mono<Integer> getTestScore(@RequestBody Mono<List<QuestionResponse>> resListMono);
 }

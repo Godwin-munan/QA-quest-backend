@@ -1,9 +1,36 @@
 
 spring:
+  application:
+    name: api-gateway
   r2dbc:
-    url: r2dbc:mysql://localhost:3309/qa-gateway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: r2dbc:mysql://localhost:3309/qa_gateway?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password: ${MYSQL_PASSWORD:1234}
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: TEST-SERVICE
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/tests/**
+        - id: QUESTION-SERVICE
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/questions/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.netflix: DEBUG
 
 server:
   port: 9090

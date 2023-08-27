@@ -1,5 +1,6 @@
 package com.munan.qatestservice.service;
 
+import com.munan.qatestservice.entities.QuestionResponse;
 import com.munan.qatestservice.entities.QuestionWrapper;
 import com.munan.qatestservice.entities.Test;
 import com.munan.qatestservice.entities.TestQuestions;
@@ -45,16 +46,26 @@ public class TestService {
 
 
 
-    public Mono<ResponseEntity<List<QuestionWrapper>>> getTestQuestions(Long id) {
-        return null;
+    @Transactional
+    public Mono<ResponseEntity<List<QuestionWrapper>>> getTestQuestions(Long testId) {
+
+        return qaRepo.findByTestId(testId)
+                .collectList()
+                .flatMap(qIds -> testInterface.getQuestionsForTest(Mono.just(qIds)))
+                .map(qw -> new ResponseEntity<>(qw, HttpStatus.OK));
+
     }
 
 
-    public Mono<ResponseEntity<Integer>> submitTest(Long id) {
-        return null;
+    public Mono<ResponseEntity<Integer>> submitTest(Long testId, Mono<List<QuestionResponse>> monoResponses) {
+
+        return repository.findById(testId)
+                    .flatMap(test -> testInterface.getTestScore(monoResponses))
+                    .map(score -> new ResponseEntity<>(score, HttpStatus.OK));
     }
 
 
+    /* Private method to save questions id in test_questions table*/
     private Mono<Void> insertTestQuestions(Long testId, List<Long> questionIds) {
         return Flux.fromIterable(questionIds)
                 .concatMap(qId -> {

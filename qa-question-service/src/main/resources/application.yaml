@@ -18,6 +18,8 @@ logging:
     org.springframework: DEBUG
     com.netflix: DEBUG
 
+#test:
+#  url: http://localhost:8081
 
 server:
   port: 8082

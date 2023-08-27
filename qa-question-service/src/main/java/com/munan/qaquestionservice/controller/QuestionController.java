@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/api/v1/questions")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -38,16 +38,15 @@ public class QuestionController {
 
     @GetMapping("/generate")
     public Mono<List<Long>> getQuestionsIdForTest(@RequestParam("category") String category, @RequestParam("numQ") Integer numQ){
-        System.out.println(" ---------------------------------------------  SHOW QUESTION CONTROLLER  ---------------------------------------------");
         return service.getQuestionsIds(category,numQ);
     }
 
-    @PostMapping("/getQuestions")
+    @PostMapping("/question-list")
     public Mono<List<QuestionWrapper>> getQuestionsForTest(@RequestBody Mono<List<Long>> questionsIdMono){
         return service.getQuestions(questionsIdMono);
     }
 
-    @PostMapping("/getScore")
+    @PostMapping("/score")
     public Mono<Integer> getTestScore(@RequestBody Mono<List<QuestionResponse>> resListMono){
         return service.getScore(resListMono);
     }

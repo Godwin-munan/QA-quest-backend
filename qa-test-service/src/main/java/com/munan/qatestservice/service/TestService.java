@@ -34,7 +34,7 @@ public class TestService {
 
                     return repository.save(newTest)
                             .flatMap(test -> {
-                                insertTestQuestions(test.getId(), res);
+                                insertTestQuestions(test.getId(), res).subscribe();
                                 return Mono.just(test);
                             })
                             .map(test -> new ResponseEntity<>(test, HttpStatus.CREATED));
@@ -65,6 +65,7 @@ public class TestService {
 
                     return qaRepo.save(tQ).then();
                 })
+                .collectList()
                 .then();
     }
 }

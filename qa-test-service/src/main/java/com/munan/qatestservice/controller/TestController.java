@@ -12,23 +12,23 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
-@RequestMapping("test")
+@RequestMapping("/api/v1/tests")
 @RequiredArgsConstructor
 public class TestController {
 
     private final TestService service;
 
-    @PostMapping("create")
+    @PostMapping
     public Mono<ResponseEntity<?>> createNewTest(@RequestBody TestDto testDto){
         return service.createTest(testDto.getCategory(), testDto.getNumQ(), testDto.getTitle());
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("{id}")
     public Mono<ResponseEntity<List<QuestionWrapper>>> getNewTestQuestions(@PathVariable Long id){
         return service.getTestQuestions(id);
     }
 
-    @PostMapping("submit/{id}")
+    @PostMapping("{id}")
     public Mono<ResponseEntity<Integer>> submitTestScore(@PathVariable Long id){
         return service.submitTest(id);
     }
